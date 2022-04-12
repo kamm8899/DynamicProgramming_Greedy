@@ -12,52 +12,48 @@ using namespace std;
  */
 void SW_bottomUp(char* X, char* Y, char** P, int** H, int row, int col, int n, int m){
     
-    //recursion
-    if( col > m){
-        //row starts from col 0
-        SW_bottomUp(X, Y, P, H, row+1, 1, n, m);
-        return;
+    //set first col to 0
+    for (int row= 0; row<n; row++){
+        H[row][0] =0;
+        P[row][0] =0;
     }
-    else if(row > n){
-        //once you get to the last row you're done
-        return;
+    //set first col to 0
+    for (int col= 0; col<n; col++){
+        H[0][col] =0;
+        P[0][col] =0;
     }
-    int score1, score2, score3;
-    //check if the letters of strings are equal
-    if(X[row -1] == Y[col-1]){
-        score1 = H[row -1][col -1 ] +2;
-    }
-    else{
-        score1 = H[row -1 ][col -1]-1;
-    }
-    score2= H[row -1 ][col] -1;
-    score3= H[row][col-1]-1;
-    
-    //score comparison
-    if(score1 >= score2 && score1 >= score3){
-        H[row][col] = score1;
-    }
-    else if(score2 >= score1 && score2 >= score3){
-        H[row][col] = score2;
-    }
-    else if(score3>= score1 && score3 >= score2){
-        H[row][col]= score3;
-    }
-    //change scores from the above code to change the P tables
-    if(H[row][col] == score1){
-        //top left diagonal row-1 and col-1
-        P[row][col] = P[row-1][col-1];
-    }
-    else{
-        if(H[row][col]==score2){
-            P[row][col] = P[row-1][col];
+    //nested for loops to go through all items in the table EXCEP first row of 0
+    for(int row=1; row<=n; row++){
+        int score1, score2, score3;
+        //table is offset by 1 due to 0 values
+        if(Y[row-1] == X[col-1]){
+            score1= H[row-1][col-1] +2;
         }
         else{
-            P[row][col] = P[row -1][col];
+            score1 = H[row -1 ][col-1]-1;
         }
+        score2 = H[row -1][col] -1;
+        score3 = H[row][col-1]-1;
+        //find the max out of the 3 scores calculated
+        H[row][col] = std::max({score1,score2,score3});
+
+        //use the scores above to change the P tables
+        if (H[row][col] == score1) {
+            //use the top left diagonal so row-1 and col-1
+            P[row][col] = 'd';
+        } else {
+            //if you picked score2 use the block above this block in the P table
+            if (H[row][col] == score2) {
+                P[row][col] = 'u';
+            } else {
+                //if you picked score3 use the block to the left of this block in the P table
+                P[row][col] = 'l';
+            }
+        }
+       
     }
-    //call recursive call again
-    SW_bottomUp(X, Y, P, H, row, col+1, n, m);
+    
+ 
 }
 
 /*
@@ -79,20 +75,48 @@ void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
  */
 void print_Seq_Align_X(char* X, char** P, int n, int m){
 	
-}
+    
+    if (n <= 0 || m <= 0){
+        return;
+    }
+
+    if (P[n][m] == 'd' ){
+        print_Seq_Align_X(X, P, n-1, m-1);
+        cout << X[n-1];
+    } else {
+        //compare with left neighbor
+        if (P[n][m] == 'l' ){
+            print_Seq_Align_X(X, P, n, m-1);
+            cout << "-";
+        } else {
+            print_Seq_Align_X(X, P, n-1, m);
+            cout << X[n-1];
+        }
+    }
 
 /*
  * Print Y'
  */
 void print_Seq_Align_Y(char* Y, char** P, int n, int m){
+    if (n <= 0 || m <= 0){
+        return;
+    }
+
+    if (P[n][m] == 'd' ){
+        print_Seq_Align_Y(Y, P, n-1, m-1);
+        cout << Y[n-1];
+    } else {
+        //compare with left neighbor
+        if (P[n][m] == 'l' ){
+            print_Seq_Align_Y(Y, P, n, m-1);
+            cout << "-";
+        } else {
+            print_Seq_Align_Y(Y, P, n-1, m);
+            cout << Y[n-1];
+        }
+    }
 	
 }
 
 
-//not completly sure how you know which numeric value is what letter
-//how do I know what you want us to put in for n and m
-//What do I do for the report, what cases do I use and how many
-//Where does the recursion go for the algorithm
-//M where are the slides refering too
-//what happens with the character the array
-
+}
