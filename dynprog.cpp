@@ -10,7 +10,7 @@ using namespace std;
 /*
  * Bottom up implementation of Smith-Waterman algorithm
  */
-void SW_bottomUp(char* X, char* Y, char** P, int** H, int row, int col, int n, int m){
+void SW_bottomUp(char* X, char* Y, char** P, int** H, int n, int m){
     
     //set first col to 0
     for (int row= 0; row<n; row++){
@@ -24,6 +24,7 @@ void SW_bottomUp(char* X, char* Y, char** P, int** H, int row, int col, int n, i
     }
     //nested for loops to go through all items in the table EXCEP first row of 0
     for(int row=1; row<=n; row++){
+        for(int col =1;row<=m; col++){
         int score1, score2, score3;
         //table is offset by 1 due to 0 values
         if(Y[row-1] == X[col-1]){
@@ -55,6 +56,7 @@ void SW_bottomUp(char* X, char* Y, char** P, int** H, int row, int col, int n, i
     
  
 }
+}
 
 /*
  * Top-down with memoization implementation of Smith-Waterman algorithm
@@ -68,6 +70,7 @@ void memoized_SW(char* X, char* Y, char** P, int** H, int n, int m){
  */
 void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
 	
+    
 }
 
 /*
@@ -93,30 +96,28 @@ void print_Seq_Align_X(char* X, char** P, int n, int m){
             cout << X[n-1];
         }
     }
+}
 
 /*
  * Print Y'
  */
-void print_Seq_Align_Y(char* Y, char** P, int n, int m){
-    if (n <= 0 || m <= 0){
-        return;
-    }
+    void print_Seq_Align_Y(char *Y, char **P, int n, int m) {
 
-    if (P[n][m] == 'd' ){
-        print_Seq_Align_Y(Y, P, n-1, m-1);
-        cout << Y[n-1];
-    } else {
-        //compare with left neighbor
-        if (P[n][m] == 'l' ){
-            print_Seq_Align_Y(Y, P, n, m-1);
-            cout << "-";
-        } else {
-            print_Seq_Align_Y(Y, P, n-1, m);
+        if (n <= 0 || m <= 0){
+            return;
+        }
+
+        if (P[n][m] == 'd' ){
+            print_Seq_Align_Y(Y, P, n-1, m-1);
             cout << Y[n-1];
+        } else {
+            //compare with left neighbor
+            if (P[n][m] == 'l' ){
+                print_Seq_Align_Y(Y, P, n, m-1);
+                cout << "-";
+            } else {
+                print_Seq_Align_Y(Y, P, n-1, m);
+                cout << Y[n-1];
+            }
         }
     }
-	
-}
-
-
-}
