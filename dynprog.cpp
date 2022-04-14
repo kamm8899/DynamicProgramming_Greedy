@@ -53,7 +53,6 @@ void SW_bottomUp(char* X, char* Y, char** P, int** H, int n, int m){
         }
        
     }
-    
  
 }
     return;
@@ -64,20 +63,29 @@ void SW_bottomUp(char* X, char* Y, char** P, int** H, int n, int m){
  */
 void memoized_SW(char* X, char* Y, char** P, int** H, int n, int m){
     
+    memoized_SW_AUX(X, Y, P, H, n, m);
+}
+
+
+/*
+ * Auxilary recursive function of top-down with memoization implementation of Smith-Waterman algorithm
+ */
+void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
+    //stores the subproblem to the solution
     int score1, score2, score3;
     //is remembering what we have computed previously
     //add code for the first row and columns to be zero
     if (n ==0 || m==0){
-        H[n][m] == 0;
+        H[n][m] = 0;
         return;
     }
-    if (H[n-1][m] == 0){
+    if (H[n-1][m-1] == 0){
         memoized_SW(X, Y, P, H, n-1, m);
     }
     if (H[n][m-1]== 0){
         memoized_SW(X,Y,P, H, n, m-1);
     }
-    if (H[n-1][m-1]){
+    if (H[n-1][m]){
         memoized_SW(X,Y,P,H,n-1,m-1);
     }
     //if statement to check if calculated value exist
@@ -91,21 +99,6 @@ void memoized_SW(char* X, char* Y, char** P, int** H, int n, int m){
     score2 = H[n-1][m]-1;
     score3 = H[n][m-1]-1;
     H[n][m] = std::max({score1,score2,score3});
-    
-    return;
-
-
-    
-	
-}
-
-
-/*
- * Auxilary recursive function of top-down with memoization implementation of Smith-Waterman algorithm
- */
-void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
-    //stores the subproblem to the solution
-	
     
 }
 
