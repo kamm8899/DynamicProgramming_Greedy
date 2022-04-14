@@ -13,18 +13,17 @@ using namespace std;
 void SW_bottomUp(char* X, char* Y, char** P, int** H, int n, int m){
     
     //set first col to 0
-    for (int row= 0; row<n; row++){
-        H[row][0] =0;
-        P[row][0] =0;
+    for (int row = 0; row <= n; row++) {
+        //set first row to 0
+        for (int col = 0; col <= m; col++) {
+            H[row][col] = 0;
+            P[row][col] = '_';
+        }
     }
-    //set first col to 0
-    for (int col= 0; col<n; col++){
-        H[0][col] =0;
-        P[0][col] =0;
-    }
+
     //nested for loops to go through all items in the table EXCEP first row of 0
-    for(int row=1; row<=n; row++){
-        for(int col =1;col<=m; col++){
+    for (int row = 1; row <= n; row++) {
+        for (int col = 1; col <= m; col++) {
         int score1, score2, score3;
         //table is offset by 1 due to 0 values
         if(X[row-1] == Y[col-1]){
@@ -63,6 +62,12 @@ void SW_bottomUp(char* X, char* Y, char** P, int** H, int n, int m){
  */
 void memoized_SW(char* X, char* Y, char** P, int** H, int n, int m){
     
+    for(int row = 0; row<= n;row++){
+        for(int col=0;col<=m;col++){
+            H[row][col]=0;
+        }
+    }
+    
     memoized_SW_AUX(X, Y, P, H, n, m);
 }
 
@@ -80,17 +85,17 @@ void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
         return;
     }
     if (H[n-1][m-1] == 0){
-        memoized_SW(X, Y, P, H, n-1, m);
+        memoized_SW(X, Y, P, H, n-1, m-1);
     }
     if (H[n][m-1]== 0){
-        memoized_SW(X,Y,P, H, n, m-1);
+        memoized_SW(X,Y,P, H, n-1, m);
     }
     if (H[n-1][m]){
-        memoized_SW(X,Y,P,H,n-1,m-1);
+        memoized_SW(X,Y,P,H,n,m-1);
     }
     //if statement to check if calculated value exist
-    if(X[n] == Y[m]){
-        score1= H[n-1][m-1]-1;
+    if(X[n-1] == Y[m-1]){
+        score1= H[n-1][m-1]+2;
         
     }
     else{
@@ -100,6 +105,19 @@ void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
     score3 = H[n][m-1]-1;
     H[n][m] = std::max({score1,score2,score3});
     
+    //add values to P
+    if (H[n][m] == score1) {
+        //use the top left diagonal so row-1 and col-1
+        P[n][m] = 'd';
+    } else {
+        //if you picked score2 use the block above this block in the P table
+        if (H[n][m] == score2) {
+            P[n][m] = 'u';
+        } else {
+     
+            P[n][m] = 'l';
+        }
+}
 }
 
 /*
