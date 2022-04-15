@@ -88,10 +88,10 @@ void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
         memoized_SW(X, Y, P, H, n-1, m-1);
     }
     if (H[n][m-1]== 0){
-        memoized_SW(X,Y,P, H, n-1, m);
+        memoized_SW(X,Y,P, H, n, m-1);
     }
     if (H[n-1][m]){
-        memoized_SW(X,Y,P,H,n,m-1);
+        memoized_SW(X,Y,P,H,n-1,m);
     }
     //if statement to check if calculated value exist
     if(X[n-1] == Y[m-1]){
