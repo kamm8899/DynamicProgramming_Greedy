@@ -94,7 +94,7 @@ void memoized_SW_AUX(char* X, char* Y, char** P, int** H, int n, int m){
         memoized_SW(X,Y,P,H,n-1,m);
     }
     //if statement to check if calculated value exist
-    if(X[n-1] == Y[m-1]){
+    if(Y[m-1] == X[n-1]){
         score1= H[n-1][m-1]+2;
         
     }
@@ -138,7 +138,7 @@ void print_Seq_Align_X(char* X, char** P, int n, int m){
         if (P[n][m] == 'l' ){
             print_Seq_Align_X(X, P, n, m-1);
             cout << "-";
-        } else {
+        }else{
             print_Seq_Align_X(X, P, n-1, m);
             cout << X[n-1];
         }
@@ -155,18 +155,17 @@ void print_Seq_Align_X(char* X, char** P, int n, int m){
             return;
         }
 
-        if (P[n][m] == 'd' ){
-            print_Seq_Align_Y(Y, P, n-1, m-1);
-            cout << Y[n-1];
+        if (P[n][m] == 'd') {
+            print_Seq_Align_Y(Y, P, n - 1, m - 1);
+            cout << Y[m-1];
         } else {
             //compare with left neighbor
-            if (P[n][m] == 'l' ){
-                print_Seq_Align_Y(Y, P, n, m-1);
-                cout << "-";
+            if (P[n][m] == 'l') {
+                print_Seq_Align_Y(Y, P, n, m - 1);
+                cout << Y[m-1];
             } else {
-                print_Seq_Align_Y(Y, P, n-1, m);
-                cout << Y[n-1];
+                print_Seq_Align_Y(Y, P, n - 1, m);
+                cout << "-";
             }
-            return;
         }
     }
