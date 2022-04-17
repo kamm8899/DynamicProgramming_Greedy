@@ -47,9 +47,9 @@ int main(int argc, char* argv[])
 	char* Y;
 
 	//values used for question #4.
-	// n=m=10;
-	// X = "dcdcbacbbb";
-	// Y = "acdccabdbb";
+//	 n=m=10;
+//	 X = "dcdcbacbbb";
+//	 Y = "acdccabdbb";
 
 	random_generator::seed();
 
@@ -63,11 +63,32 @@ int main(int argc, char* argv[])
 		H[i] = new int[m+1];
 		P[i] = new char[m+1];
 	}
+    
+    
+    algo = 0;
+    if (algo == 0)
+        SW_bottomUp(X, Y, P, H, n, m);
+    else if (algo == 1)
+        memoized_SW(X, Y, P, H, n, m);
+    //code to generate H and P tables below for use on question 4
 
-	if(algo==0)
-		SW_bottomUp(X, Y, P, H, n, m);
-	else if(algo==1)
-		memoized_SW(X, Y, P, H, n, m);
+//    cout << endl;
+//
+//    cout << "H is..." << endl;
+//    for (int i = 0; i <= n; i++) {
+//        for (int j = 0; j <= m; j++) {
+//            cout << H[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
+//
+//    cout << "P is..." << endl;
+//    for (int i = 0; i <= n; i++) {
+//        for (int j = 0; j <= m; j++) {
+//            cout << P[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
 
 	cout << endl;
 
