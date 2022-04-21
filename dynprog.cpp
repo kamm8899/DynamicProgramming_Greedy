@@ -131,7 +131,7 @@ void print_Seq_Align_X(char* X, char** P, int n, int m){
     if (n <= 0 || m <= 0) {
         return;
     }
-
+    else{
     if (P[n][m] == 'd') {
         print_Seq_Align_X(X, P, n - 1, m - 1);
         cout << X[n - 1];
@@ -146,7 +146,7 @@ void print_Seq_Align_X(char* X, char** P, int n, int m){
         }
     }
 }
-
+}
 /*
  * Print Y'
  */
@@ -155,7 +155,7 @@ void print_Seq_Align_X(char* X, char** P, int n, int m){
         if (n <= 0 || m <= 0) {
             return;
         }
-
+        else {
         if (P[n][m] == 'd') {
             print_Seq_Align_Y(Y, P, n - 1, m - 1);
             cout << Y[m-1];
@@ -169,4 +169,5 @@ void print_Seq_Align_X(char* X, char** P, int n, int m){
                 cout << "-";
             }
         }
+    }
     }
